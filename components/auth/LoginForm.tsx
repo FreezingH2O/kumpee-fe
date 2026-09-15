@@ -101,7 +101,7 @@ export function LoginForm({ next, initialError }: { next: string; initialError: 
         </span>
         <h1 className="mt-3 text-2xl font-bold text-ink-900">{title}</h1>
         <p className="mt-1 text-sm text-ink-600">
-          เข้าสู่ระบบเพื่อใช้คำอธิบายโดย AI คำแปล Live ปรับข้อความ และคำอ่าน
+          เพื่อใช้ AI ช่วยอธิบาย แปล และปรับข้อความ
         </p>
       </div>
 
