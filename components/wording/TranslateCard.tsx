@@ -48,7 +48,7 @@ export function TranslateCard({ text }: { text: string }) {
           : null;
 
   return (
-    <section className="rounded-card border border-line bg-surface p-5">
+    <section className="rounded-card border border-line bg-surface shadow-card p-5">
       <header className="mb-4">
         <h2 className="text-xl font-semibold text-ink-900">คำแปลและคำอธิบาย</h2>
         <p className="mt-1 text-sm text-ink-600">แปลความหมายเป็นภาษาอื่น พร้อมคำอธิบายเพิ่มเติม</p>
@@ -111,7 +111,7 @@ export function TranslateCard({ text }: { text: string }) {
           type="button"
           disabled={mutation.isPending || !text}
           onClick={() => mutation.mutate(target)}
-          className="flex w-full items-center justify-center gap-2 rounded-control bg-primary-500 py-3 text-sm font-medium text-white hover:bg-primary-600 disabled:opacity-60"
+          className="flex w-full items-center justify-center gap-2 rounded-control bg-primary-500 shadow-button py-3 text-sm font-medium text-white hover:bg-primary-600 disabled:opacity-60"
         >
           {mutation.isPending ? (
             <ArrowPathIcon className="h-5 w-5 animate-spin" />

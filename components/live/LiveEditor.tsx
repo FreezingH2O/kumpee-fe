@@ -283,7 +283,7 @@ export function LiveEditor() {
     <div className="mx-auto max-w-[1280px] px-4 py-6 lg:px-8">
       <div className="grid gap-4 lg:grid-cols-[1fr_420px]">
         {/* editor */}
-        <section className="rounded-card border border-line bg-surface p-5">
+        <section className="rounded-card border border-line bg-surface shadow-card p-5">
           <header className="mb-3 flex items-center justify-between text-sm">
             <span className="flex items-center gap-2 font-medium text-ink-600">
               <PencilSquareIcon className="h-5 w-5" aria-hidden="true" />
@@ -321,13 +321,13 @@ export function LiveEditor() {
               {sense ? <SelectedWordCard sense={sense} /> : null}
 
               {error ? (
-                <div className="rounded-card border border-line bg-surface p-6 text-sm text-ink-600">
+                <div className="rounded-card border border-line bg-surface shadow-card p-6 text-sm text-ink-600">
                   {error}
                 </div>
               ) : analysis ? (
                 <SentenceMeaningCard result={analysis} />
               ) : (
-                <div className="rounded-card border border-line bg-surface p-6 text-sm text-ink-400">
+                <div className="rounded-card border border-line bg-surface shadow-card p-6 text-sm text-ink-400">
                   กำลังวิเคราะห์ส่วนที่เลือก…
                 </div>
               )}

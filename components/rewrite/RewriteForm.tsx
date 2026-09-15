@@ -77,7 +77,7 @@ export function RewriteForm({ initialText = "" }: { initialText?: string }) {
     <div className="mx-auto max-w-[1280px] px-4 py-6 lg:px-8">
       <div className="grid gap-4 lg:grid-cols-2">
         {/* form */}
-        <section className="space-y-4 rounded-card border border-line bg-surface p-5">
+        <section className="space-y-4 rounded-card border border-line bg-surface shadow-card p-5">
           <Field label="ข้อความต้นฉบับ" required helper="วางข้อความที่ต้องการปรับ">
             {(p) => (
               <textarea
@@ -186,7 +186,7 @@ export function RewriteForm({ initialText = "" }: { initialText?: string }) {
             type="button"
             onClick={run}
             disabled={mutation.isPending || !text.trim()}
-            className="flex w-full items-center justify-center gap-2 rounded-control bg-primary-500 py-3 text-sm font-medium text-white hover:bg-primary-600 disabled:opacity-60"
+            className="flex w-full items-center justify-center gap-2 rounded-control bg-primary-500 shadow-button py-3 text-sm font-medium text-white hover:bg-primary-600 disabled:opacity-60"
           >
             {mutation.isPending ? (
               <ArrowPathIcon className="h-5 w-5 animate-spin" />
@@ -198,7 +198,7 @@ export function RewriteForm({ initialText = "" }: { initialText?: string }) {
         </section>
 
         {/* result */}
-        <section className="rounded-card border border-line bg-surface p-5">
+        <section className="rounded-card border border-line bg-surface shadow-card p-5">
           <h2 className="font-semibold text-ink-900">ข้อความที่ปรับแล้ว</h2>
           {failure ? (
             <p className="mt-4 rounded-control bg-amber-50 p-4 text-sm text-amber-700">
@@ -238,7 +238,7 @@ export function RewriteForm({ initialText = "" }: { initialText?: string }) {
                 <button
                   type="button"
                   onClick={() => navigator.clipboard?.writeText(result.output_text).catch(() => {})}
-                  className="inline-flex items-center gap-2 rounded-control bg-primary-500 px-4 py-2 text-sm font-medium text-white hover:bg-primary-600"
+                  className="inline-flex items-center gap-2 rounded-control bg-primary-500 shadow-button px-4 py-2 text-sm font-medium text-white hover:bg-primary-600"
                 >
                   <ClipboardIcon className="h-5 w-5" /> คัดลอก
                 </button>

@@ -73,13 +73,13 @@ const SUBNAV = [
 export default function KlangkhamPage() {
   return (
     <AppShell>
-      <div className="border-b border-line bg-surface">
+      <div className="border-b border-white/70 bg-white/60 backdrop-blur-md">
         <div className="mx-auto max-w-[1280px] px-4 py-6 lg:px-8">
           <nav aria-label="breadcrumb" className="text-sm text-ink-400">
             <span>หน้าแรก</span> <span className="mx-1">›</span>{" "}
             <span className="text-primary-600">คลังคำ</span>
           </nav>
-          <h1 className="mt-2 text-3xl font-bold text-ink-900">คลังคำ</h1>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-ink-900 sm:text-4xl">คลังคำ</h1>
           <p className="mt-1 text-sm text-ink-600">
             ชุดข้อมูลคำศัพท์ภาษาไทยและ API ประมวลผลภาษาชุดเดียวกันกับที่เว็บไซต์ใช้งานอยู่
             เปิดให้นักพัฒนานำไปต่อยอดได้
@@ -111,7 +111,7 @@ export default function KlangkhamPage() {
             { v: "ไทย + 4 ถิ่น", l: "ภาษา / สำเนียง" },
             { v: "กำลังพัฒนา", l: "สถานะชุดข้อมูล" },
           ].map((s) => (
-            <div key={s.l} className="rounded-card border border-line bg-surface p-4">
+            <div key={s.l} className="rounded-card border border-line bg-surface shadow-card p-4">
               <p className="text-2xl font-bold text-ink-900">{s.v}</p>
               <p className="mt-1 text-xs text-ink-400">{s.l}</p>
             </div>
@@ -121,7 +121,7 @@ export default function KlangkhamPage() {
         <div className="grid gap-6 lg:grid-cols-[1fr_420px]">
           <div className="space-y-6">
             {/* dataset export — coming soon (§8) */}
-            <section id="dataset" className="rounded-card border border-line bg-surface p-5">
+            <section id="dataset" className="rounded-card border border-line bg-surface shadow-card p-5">
               <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
                 <h2 className="font-semibold text-ink-900">ชุดข้อมูลคำศัพท์</h2>
                 <span className="rounded-chip bg-amber-50 px-2 py-0.5 text-xs text-amber-700">
@@ -147,7 +147,7 @@ export default function KlangkhamPage() {
             </section>
 
             {/* endpoints */}
-            <section id="api" className="rounded-card border border-line bg-surface p-5">
+            <section id="api" className="rounded-card border border-line bg-surface shadow-card p-5">
               <div className="mb-3 flex items-center gap-2">
                 <h2 className="font-semibold text-ink-900">API ที่เปิดให้ใช้</h2>
                 <span className="rounded-chip bg-slate100 px-2 py-0.5 text-xs text-ink-600">
@@ -193,7 +193,7 @@ export default function KlangkhamPage() {
               </pre>
             </section>
 
-            <section className="rounded-card border border-line bg-surface p-5">
+            <section className="rounded-card border border-line bg-surface shadow-card p-5">
               <h2 className="mb-2 font-semibold text-ink-900">
                 ค่า meta.status ที่ต้องรองรับ
               </h2>
@@ -212,7 +212,7 @@ export default function KlangkhamPage() {
               </p>
             </section>
 
-            <section className="rounded-card border border-line bg-surface p-5">
+            <section className="rounded-card border border-line bg-surface shadow-card p-5">
               <h2 className="mb-2 flex items-center gap-2 font-semibold text-ink-900">
                 <KeyIcon className="h-5 w-5 text-ink-400" /> คีย์และโควตา
               </h2>
@@ -234,7 +234,7 @@ export default function KlangkhamPage() {
               </p>
               <button
                 type="button"
-                className="mt-3 w-full rounded-control bg-primary-500 py-2.5 text-sm font-medium text-white hover:bg-primary-600"
+                className="mt-3 w-full rounded-control bg-primary-500 shadow-button py-2.5 text-sm font-medium text-white hover:bg-primary-600"
               >
                 สร้างคีย์ใหม่
               </button>
@@ -243,7 +243,7 @@ export default function KlangkhamPage() {
         </div>
 
         {/* development status (§8) */}
-        <section className="rounded-card border border-line bg-surface p-5">
+        <section className="rounded-card border border-line bg-surface shadow-card p-5">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
             <h2 className="font-semibold text-ink-900">สถานะการพัฒนา</h2>
             <span className="font-mono text-xs text-ink-400">IMPLEMENTATION_STATUS.md</span>

@@ -11,7 +11,7 @@ export default async function ReaderPage({
   const { docId } = await params;
   return (
     <AppShell>
-      <div className="border-b border-line bg-surface">
+      <div className="border-b border-white/70 bg-white/60 backdrop-blur-md">
         <div className="mx-auto max-w-[1280px] px-4 py-6 lg:px-8">
           <nav aria-label="breadcrumb" className="text-sm text-ink-400">
             <span>หน้าแรก</span> <span className="mx-1">›</span>{" "}
@@ -19,7 +19,7 @@ export default async function ReaderPage({
               คำอ่าน
             </a>
           </nav>
-          <h1 className="mt-2 text-3xl font-bold text-ink-900">คำอ่าน</h1>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-ink-900 sm:text-4xl">คำอ่าน</h1>
           <p className="mt-1 text-sm text-ink-600">
             ลากเลือกข้อความบนเอกสาร เพื่อดูคำแปลและคำอธิบายโดยที่ยังเห็นต้นฉบับอยู่
           </p>

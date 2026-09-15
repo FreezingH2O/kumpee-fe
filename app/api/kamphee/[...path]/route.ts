@@ -9,7 +9,7 @@ import {
 } from "@/lib/guest/quota";
 
 /**
- * Server-side proxy to the คำภีร์ backend.
+ * Server-side proxy to the คัมภีร์ backend.
  *
  * The browser calls `/api/kamphee/v1/...`; this handler forwards to
  * `${KAMPHEE_API_BASE}/v1/...` and attaches `Authorization: Bearer <token>` —

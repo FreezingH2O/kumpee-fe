@@ -8,7 +8,7 @@ import type { ContemporaryNote } from "@/lib/api/types";
 export function ContemporaryCard({ note }: { note: ContemporaryNote }) {
   const unverified = note.generation.review_status !== "approved";
   return (
-    <section className="rounded-card border border-line bg-surface p-5">
+    <section className="rounded-card border border-line bg-surface shadow-card p-5">
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <h3 className="font-semibold text-ink-900">คำร่วมสมัย / คำแสลง</h3>
         <span className="inline-flex items-center gap-1 rounded-chip bg-violet-50 px-2 py-0.5 text-xs font-medium text-violet-600">

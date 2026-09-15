@@ -17,7 +17,7 @@ export type SourceKind =
   | "official" // ราชบัณฑิตยสถาน etc.
   | "specialist" // ศัพท์เฉพาะทาง
   | "community" // คลังคำ (ชุมชน)
-  | "ai"; // คำภีร์ AI
+  | "ai"; // คัมภีร์ AI
 
 export function tagForSource(
   kind: SourceKind,

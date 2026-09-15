@@ -28,13 +28,13 @@ export default async function SearchPage({
 
   return (
     <AppShell>
-      <div className="border-b border-line bg-surface">
+      <div className="border-b border-white/70 bg-white/60 backdrop-blur-md">
         <div className="mx-auto max-w-[1280px] px-4 pt-6 lg:px-8">
           <nav aria-label="breadcrumb" className="text-sm text-ink-400">
             <span>หน้าแรก</span> <span className="mx-1">›</span>{" "}
             <span className="text-ink-600">คำแปล</span>
           </nav>
-          <h1 className="mt-2 text-3xl font-bold text-ink-900">คำแปล</h1>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-ink-900 sm:text-4xl">คำแปล</h1>
           <p className="mt-1 text-sm text-ink-600">
             ค้นคำหรือประโยคเดียว แล้วดูความหมายจากทุกแหล่งที่เชื่อมต่อ
             พร้อมคำแปลและคำอธิบาย

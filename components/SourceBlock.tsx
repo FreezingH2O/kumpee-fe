@@ -37,7 +37,7 @@ export function SourceBlock({ entry }: { entry: SourceEntry }) {
       aria-label={`${entry.source_name} — ${tagStyle.accessibleLabel}`}
     >
       <span
-        className="grid h-9 w-9 shrink-0 place-items-center rounded-control bg-canvas text-ink-600"
+        className="hidden h-9 w-9 shrink-0 place-items-center rounded-control bg-primary-50 text-primary-600 sm:grid"
         aria-hidden="true"
       >
         <Icon className="h-5 w-5" />

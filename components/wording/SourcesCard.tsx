@@ -16,7 +16,7 @@ export function SourcesCard({ sources, meta }: { sources: SourceEntry[]; meta: M
   const sourceCount = new Set(sources.map((s) => s.source_id)).size;
 
   return (
-    <section className="rounded-card border border-line bg-surface p-5">
+    <section className="rounded-card border border-line bg-surface shadow-card p-5">
       <header className="mb-4">
         <h2 className="text-xl font-semibold text-ink-900">ความหมายแยกตามแหล่งข้อมูล</h2>
         <p className="mt-1 text-sm text-ink-600">

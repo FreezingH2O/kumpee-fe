@@ -8,7 +8,13 @@
     line-height: 1.6;
   }
   body {
+    /* Soft light-blue wash behind every page */
     background-color: theme("colors.canvas");
+    background-image:
+      radial-gradient(1200px 520px at 12% -8%, rgba(125, 181, 255, 0.28), transparent 60%),
+      radial-gradient(900px 480px at 100% 0%, rgba(120, 214, 230, 0.2), transparent 60%),
+      linear-gradient(180deg, #f1f7ff 0%, #f7fbff 40%, #f3f8ff 100%);
+    background-attachment: fixed;
     color: theme("colors.ink.900");
     font-family: theme("fontFamily.sans");
   }
@@ -19,6 +25,13 @@
   :focus-visible {
     outline: 2px solid theme("colors.primary.500");
     outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Frosted panel: page headers, search card, sticky header. */
+  .glass {
+    @apply border border-white/70 bg-white/70 backdrop-blur-md;
   }
 }
 

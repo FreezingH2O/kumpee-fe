@@ -9,7 +9,7 @@ import type { WebEvidence } from "@/lib/api/types";
 export function WebEvidenceCard({ evidence }: { evidence: WebEvidence[] }) {
   if (!evidence.length) return null;
   return (
-    <section className="rounded-card border border-line bg-surface p-5">
+    <section className="rounded-card border border-line bg-surface shadow-card p-5">
       <div className="mb-1 flex flex-wrap items-center gap-2">
         <h3 className="flex items-center gap-1.5 font-semibold text-ink-900">
           <LinkIcon className="h-5 w-5 text-ink-400" aria-hidden="true" />

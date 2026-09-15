@@ -102,7 +102,7 @@ export function UploadZone() {
             type="button"
             disabled={busy}
             onClick={() => inputRef.current?.click()}
-            className="inline-flex items-center gap-2 rounded-control bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-600 disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-control bg-primary-500 shadow-button px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-600 disabled:opacity-60"
           >
             <DocumentIcon className="h-5 w-5" /> เลือกไฟล์
           </button>
@@ -130,7 +130,7 @@ export function UploadZone() {
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <section className="rounded-card border border-line bg-surface p-4">
+        <section className="rounded-card border border-line bg-surface shadow-card p-4">
           <h2 className="mb-3 flex items-center gap-2 font-semibold text-ink-900">
             <ClockIcon className="h-5 w-5 text-ink-400" /> เอกสารล่าสุด
           </h2>
@@ -161,7 +161,7 @@ export function UploadZone() {
           )}
         </section>
 
-        <section className="rounded-card border border-line bg-surface p-4">
+        <section className="rounded-card border border-line bg-surface shadow-card p-4">
           <h2 className="mb-2 font-semibold text-ink-900">เอกสารของคุณ</h2>
           <p className="text-sm text-ink-600">
             ไฟล์ที่อัปโหลดจะถูกเก็บไว้ในบัญชีของคุณเท่านั้น

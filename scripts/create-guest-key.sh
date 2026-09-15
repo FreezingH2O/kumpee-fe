@@ -18,7 +18,7 @@ if [ -z "$ANON_KEY" ]; then
   read -r -p "Supabase anon key (NEXT_PUBLIC_SUPABASE_ANON_KEY): " ANON_KEY
 fi
 
-read -r -p "Email of your คำภีร์ account: " EMAIL
+read -r -p "Email of your คัมภีร์ account: " EMAIL
 read -r -s -p "Password: " PASSWORD
 echo
 

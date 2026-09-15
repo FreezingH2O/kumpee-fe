@@ -60,7 +60,7 @@ export function SentenceResult({ response }: { response: ApiSuccess<LanguageResu
         </div>
 
         {/* tokenized sentence */}
-        <section className="order-2 rounded-card border border-line bg-surface p-5 lg:col-start-1 lg:row-start-2">
+        <section className="order-2 rounded-card border border-line bg-surface shadow-card p-5 lg:col-start-1 lg:row-start-2">
           <h2 className="font-semibold text-ink-900">แตะคำเพื่อดูความหมายในบริบท</h2>
           <p className="mt-1 text-sm text-ink-600">
             {terms.length
@@ -102,7 +102,7 @@ export function SentenceResult({ response }: { response: ApiSuccess<LanguageResu
             <div className="flex shrink-0 gap-2">
               <Link
                 href={rewriteHref}
-                className="inline-flex items-center gap-2 rounded-control bg-primary-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-600"
+                className="inline-flex items-center gap-2 rounded-control bg-primary-500 shadow-button px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-600"
               >
                 <PencilSquareIcon className="h-5 w-5" />
                 ปรับข้อความ
@@ -138,7 +138,7 @@ function SelectedTerm({ term }: { term: MatchedTerm }) {
 
   if (query.isPending) {
     return (
-      <div className="rounded-card border border-line bg-surface p-4 text-sm text-ink-400">
+      <div className="rounded-card border border-line bg-surface shadow-card p-4 text-sm text-ink-400">
         กำลังโหลดความหมายของ “{term.text}”…
       </div>
     );
@@ -146,7 +146,7 @@ function SelectedTerm({ term }: { term: MatchedTerm }) {
   const sense = query.data ? senseForMatchedTerm(term, query.data) : null;
   if (!sense) {
     return (
-      <div className="rounded-card border border-line bg-surface p-4 text-sm text-ink-600">
+      <div className="rounded-card border border-line bg-surface shadow-card p-4 text-sm text-ink-600">
         โหลดความหมายของ “{term.text}” ไม่สำเร็จ
       </div>
     );

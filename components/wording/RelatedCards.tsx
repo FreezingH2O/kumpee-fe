@@ -23,7 +23,7 @@ export function RelatedCards({ result }: { result: LanguageResult }) {
   return (
     <div className="mt-6 grid gap-4 md:grid-cols-3">
       {near.length ? (
-        <section className="rounded-card border border-line bg-surface p-4">
+        <section className="rounded-card border border-line bg-surface shadow-card p-4">
           <div className="mb-2 flex flex-wrap items-center gap-2">
             <h3 className="font-semibold text-ink-900">คำใกล้เคียง</h3>
             <AiTag />
@@ -35,7 +35,7 @@ export function RelatedCards({ result }: { result: LanguageResult }) {
             {near.map((w) => (
               <span
                 key={w}
-                className="rounded-chip bg-slate100 px-3 py-1.5 text-sm text-ink-900"
+                className="rounded-chip border border-line bg-surface px-3.5 py-1.5 text-sm font-medium text-ink-900"
               >
                 {w}
               </span>
@@ -45,7 +45,7 @@ export function RelatedCards({ result }: { result: LanguageResult }) {
       ) : null}
 
       {examples.length ? (
-        <section className="rounded-card border border-line bg-surface p-4">
+        <section className="rounded-card border border-line bg-surface shadow-card p-4">
           <div className="mb-2 flex flex-wrap items-center gap-2">
             <h3 className="font-semibold text-ink-900">ตัวอย่างเพิ่มเติม</h3>
             {examples.some((e) => e.generation) ? <AiTag /> : null}
@@ -54,7 +54,7 @@ export function RelatedCards({ result }: { result: LanguageResult }) {
             {examples.map((ex) => (
               <li
                 key={ex.text}
-                className="flex items-center justify-between gap-2 rounded-control bg-slate100 px-3 py-2 text-sm text-ink-900"
+                className="flex items-center justify-between gap-3 rounded-control border border-line bg-canvas px-4 py-3 text-sm text-ink-900"
               >
                 <span>“{ex.text}”</span>
                 <ClipboardIcon
@@ -68,7 +68,7 @@ export function RelatedCards({ result }: { result: LanguageResult }) {
       ) : null}
 
       {related.length ? (
-        <section className="rounded-card border border-line bg-surface p-4">
+        <section className="rounded-card border border-line bg-surface shadow-card p-4">
           <h3 className="mb-2 flex items-center gap-1.5 font-semibold text-ink-900">
             <MagnifyingGlassIcon className="h-5 w-5 text-ink-400" />
             ลองค้นหาเพิ่มเติม
@@ -81,7 +81,7 @@ export function RelatedCards({ result }: { result: LanguageResult }) {
               <a
                 key={w}
                 href={`/search?q=${encodeURIComponent(w)}`}
-                className="flex items-center gap-1.5 rounded-chip border border-line px-3 py-1.5 text-sm text-ink-600 hover:border-primary-500 hover:text-primary-600"
+                className="flex items-center gap-1.5 rounded-chip border border-line bg-surface px-3.5 py-1.5 text-sm font-medium text-ink-600 hover:border-primary-500 hover:text-primary-600"
               >
                 <MagnifyingGlassIcon className="h-3.5 w-3.5" />
                 {w}

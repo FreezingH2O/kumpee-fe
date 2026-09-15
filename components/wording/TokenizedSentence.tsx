@@ -46,7 +46,7 @@ export function TokenizedSentence({
         aria-label={`ดูความหมายของ ${term.text} ในประโยคนี้`}
         className={
           selected
-            ? "rounded-control bg-primary-500 px-2 py-0.5 font-semibold text-white"
+            ? "rounded-control bg-primary-500 shadow-button px-2 py-0.5 font-semibold text-white"
             : "rounded-sm px-0.5 font-semibold text-ink-900 underline decoration-teal-500 decoration-2 underline-offset-4 hover:bg-teal-50"
         }
       >

@@ -1,4 +1,4 @@
-# Connecting the คำภีร์ frontend to the backend
+# Connecting the คัมภีร์ frontend to the backend
 
 Every screen talks to the backend, by default the deployed one at
 **https://kumpee-be.vercel.app**. The backend source is `../thai-dic`. There

@@ -95,7 +95,7 @@ export function LoginForm({ next, initialError }: { next: string; initialError: 
     mode === "signin" ? "เข้าสู่ระบบ" : mode === "signup" ? "สมัครสมาชิก" : "เข้าสู่ระบบด้วยลิงก์ทางอีเมล";
 
   return (
-    <section className="rounded-card border border-line bg-surface p-6">
+    <section className="rounded-card border border-line bg-surface shadow-card p-6">
       <div className="mb-6 text-center">
         <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-primary-50 text-primary-600">
           <BookOpenIcon className="h-6 w-6" aria-hidden="true" />
@@ -180,7 +180,7 @@ export function LoginForm({ next, initialError }: { next: string; initialError: 
         <button
           type="submit"
           disabled={busy}
-          className="flex w-full items-center justify-center gap-2 rounded-control bg-primary-500 py-3 text-sm font-medium text-white hover:bg-primary-600 disabled:opacity-60"
+          className="flex w-full items-center justify-center gap-2 rounded-control bg-primary-500 shadow-button py-3 text-sm font-medium text-white hover:bg-primary-600 disabled:opacity-60"
         >
           {busy ? <ArrowPathIcon className="h-5 w-5 animate-spin" /> : null}
           {mode === "signin" ? "เข้าสู่ระบบ" : mode === "signup" ? "สมัครสมาชิก" : "ส่งลิงก์"}

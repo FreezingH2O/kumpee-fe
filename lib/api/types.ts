@@ -1,5 +1,5 @@
 /**
- * คำภีร์ API types.
+ * คัมภีร์ API types.
  *
  * Two layers:
  *  - the envelope + REQUEST bodies below mirror the backend wire contract

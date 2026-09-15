@@ -18,8 +18,8 @@ const robotoMono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "คำภีร์",
-  description: "พจนานุกรมและเครื่องมือเข้าใจภาษาไทย",
+  title: "คัมภีร์ — พจนานุกรมยุคใหม่ เข้าใจภาษาไทยในทุกบริบท",
+  description: "ค้นคำ เข้าใจบริบท สื่อสารได้ตรงใจ — พจนานุกรมและเครื่องมือเข้าใจภาษาไทย",
 };
 
 export default function RootLayout({

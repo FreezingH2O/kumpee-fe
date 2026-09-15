@@ -133,3 +133,46 @@ export async function searchServer(text: string): Promise<SearchOutcome> {
     guestLimitReached: false,
   };
 }
+
+export interface FeaturedWord {
+  headword: string;
+  partOfSpeech: string | null;
+  definition: string;
+  example: string | null;
+  sourceTitle: string | null;
+}
+
+/** A few real dictionary entries for the home page (public, cached 1 hour).
+ *  Words that fail to load are skipped — nothing is invented. */
+export async function featuredWords(words: string[]): Promise<FeaturedWord[]> {
+  const results = await Promise.all(
+    words.map(async (word) => {
+      try {
+        const res = await fetch(`${API_BASE}/v1/entries?query=${encodeURIComponent(word)}`, {
+          headers: { accept: "application/json" },
+          next: { revalidate: 3600 },
+          signal: AbortSignal.timeout(8000),
+        });
+        const body = (await res.json()) as ApiResponse<WireEntryList>;
+        if (isApiError(body)) return null;
+        const entries = body.data.items;
+        const entry =
+          entries.find((e) => e.variety_code === "th-central" && e.presentation !== "secondary") ??
+          entries[0];
+        const sense = entry?.senses[0];
+        const definition = sense?.definitions[0];
+        if (!entry || !sense || !definition) return null;
+        return {
+          headword: entry.headword,
+          partOfSpeech: sense.part_of_speech ?? entry.part_of_speech ?? null,
+          definition: definition.text,
+          example: sense.examples?.[0]?.text ?? null,
+          sourceTitle: definition.source_title ?? entry.source_title ?? null,
+        } satisfies FeaturedWord;
+      } catch {
+        return null;
+      }
+    })
+  );
+  return results.filter((w): w is FeaturedWord => w !== null);
+}

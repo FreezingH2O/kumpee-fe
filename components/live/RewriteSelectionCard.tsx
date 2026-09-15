@@ -44,7 +44,7 @@ export function RewriteSelectionCard({
   busy?: boolean;
 }) {
   return (
-    <section className="rounded-card border border-line bg-surface p-5">
+    <section className="rounded-card border border-line bg-surface shadow-card p-5">
       <h2 className="flex items-center gap-2 font-semibold text-ink-900">
         <SparklesIcon className="h-5 w-5 text-violet-600" aria-hidden="true" />
         ปรับข้อความที่เลือก
@@ -107,7 +107,7 @@ export function RewriteSelectionCard({
               type="button"
               onClick={onReplace}
               disabled={busy}
-              className="inline-flex flex-1 items-center justify-center gap-2 rounded-control bg-primary-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-600 disabled:opacity-60"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-control bg-primary-500 shadow-button px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-600 disabled:opacity-60"
             >
               <ArrowsRightLeftIcon className="h-5 w-5" />
               แทนที่ข้อความที่เลือก
@@ -131,7 +131,7 @@ export function RewriteSelectionCard({
           type="button"
           onClick={onGenerate}
           disabled={busy}
-          className="mt-4 flex w-full items-center justify-center gap-2 rounded-control bg-primary-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-600 disabled:opacity-60"
+          className="mt-4 flex w-full items-center justify-center gap-2 rounded-control bg-primary-500 shadow-button px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-600 disabled:opacity-60"
         >
           {busy ? (
             <ArrowPathIcon className="h-5 w-5 animate-spin" />

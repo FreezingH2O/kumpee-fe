@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
+import { ArrowRightStartOnRectangleIcon, UserIcon } from "@heroicons/react/24/outline";
 import { getSupabaseBrowser } from "@/lib/supabase/client";
 
 /** Header auth control: the เข้าสู่ระบบ button when signed out; a compact avatar
@@ -57,15 +57,16 @@ export function AccountMenu() {
   }
 
   // Reserve the button's space while the session loads, so nothing jumps.
-  if (!ready) return <span className="block h-9 w-9" aria-hidden="true" />;
+  if (!ready) return <span className="block h-10 w-10" aria-hidden="true" />;
 
   if (!email) {
     const next = pathname && pathname !== "/login" ? `?next=${encodeURIComponent(pathname)}` : "";
     return (
       <Link
         href={`/login${next}`}
-        className="rounded-control bg-primary-500 px-4 py-2 text-sm font-medium text-white hover:bg-primary-600"
+        className="inline-flex items-center gap-2 rounded-control bg-primary-500 shadow-button px-4 py-2.5 text-sm font-semibold text-white shadow-button hover:bg-primary-600"
       >
+        <UserIcon className="h-4 w-4" aria-hidden="true" />
         เข้าสู่ระบบ
       </Link>
     );
@@ -82,7 +83,7 @@ export function AccountMenu() {
         aria-expanded={open}
         aria-label={`บัญชีของคุณ (${email})`}
         title={email}
-        className="grid h-9 w-9 place-items-center rounded-full bg-primary-500 text-sm font-semibold text-white hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+        className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-primary-500 to-primary-700 shadow-button text-sm font-semibold text-white hover:bg-primary-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
       >
         {initial}
       </button>
@@ -90,7 +91,7 @@ export function AccountMenu() {
       {open ? (
         <div
           role="menu"
-          className="absolute right-0 top-full z-30 mt-2 w-64 rounded-card border border-line bg-surface p-2 shadow-lg"
+          className="absolute right-0 top-full z-30 mt-2 w-64 rounded-card border border-line bg-surface shadow-card p-2 shadow-float"
         >
           <div className="px-3 py-2">
             <p className="text-xs text-ink-400">เข้าสู่ระบบในชื่อ</p>

@@ -1,32 +1,33 @@
-import { BookOpenIcon } from "@heroicons/react/24/outline";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import type { LanguageResult } from "@/lib/api/types";
 import { AudioButton } from "@/components/AudioButton";
 
 /**
- * Word header for the คำแปล result — headword, POS, pronunciation (phonetic +
- * reading) with the audio button (§6), and the one-line gloss. On the not-found
- * state the gloss is the "ยังไม่พบ…" message instead.
+ * Word header for the คำแปล result — headword, a verified chip when the word
+ * is in a connected dictionary, POS, and pronunciation with the audio button
+ * (§6).
  */
 export function WordHeader({ result }: { result: LanguageResult }) {
   const pron = result.pronunciations?.[0];
+  const inDictionary = (result.dictionary_results?.length ?? 0) > 0;
 
   return (
-    <div className="border-b border-line pb-6">
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <h1 className="text-4xl font-bold leading-heading text-primary-600">
-            {result.headword}
-          </h1>
-          {result.part_of_speech ? (
-            <span className="rounded-chip bg-slate100 px-2.5 py-1 text-sm font-medium text-ink-600">
-              {result.part_of_speech}
-            </span>
-          ) : null}
-        </div>
-        <BookOpenIcon
-          className="mt-2 h-5 w-5 shrink-0 text-ink-400"
-          aria-hidden="true"
-        />
+    <div className="rounded-card border border-line bg-surface p-5 shadow-card sm:p-6">
+      <div className="flex flex-wrap items-center gap-3">
+        <h1 className="text-4xl font-extrabold leading-heading tracking-tight text-ink-900 sm:text-5xl">
+          {result.headword}
+        </h1>
+        {inDictionary ? (
+          <span className="inline-flex items-center gap-1 rounded-chip bg-green-50 px-2.5 py-1 text-xs font-semibold text-green-700">
+            <CheckCircleIcon className="h-4 w-4" aria-hidden="true" />
+            มีในพจนานุกรม
+          </span>
+        ) : null}
+        {result.part_of_speech ? (
+          <span className="rounded-chip bg-rose-50 px-2.5 py-1 text-xs font-semibold text-rose-600">
+            {result.part_of_speech}
+          </span>
+        ) : null}
       </div>
 
       {pron ? (
@@ -45,9 +46,7 @@ export function WordHeader({ result }: { result: LanguageResult }) {
       ) : null}
 
       {result.gloss ? (
-        <p className="mt-4 text-[17px] leading-body text-ink-900">
-          {result.gloss}
-        </p>
+        <p className="mt-4 text-[17px] leading-body text-ink-900">{result.gloss}</p>
       ) : null}
     </div>
   );

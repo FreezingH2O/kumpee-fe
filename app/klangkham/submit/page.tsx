@@ -6,7 +6,7 @@ import { SubmitForm } from "@/components/klangkham/SubmitForm";
 export default function SubmitPage() {
   return (
     <AppShell>
-      <div className="border-b border-line bg-surface">
+      <div className="border-b border-white/70 bg-white/60 backdrop-blur-md">
         <div className="mx-auto max-w-[1280px] px-4 py-6 lg:px-8">
           <nav aria-label="breadcrumb" className="text-sm text-ink-400">
             <span>หน้าแรก</span> <span className="mx-1">›</span>{" "}
@@ -16,7 +16,7 @@ export default function SubmitPage() {
             <span className="mx-1">›</span>{" "}
             <span className="text-primary-600">เสนอคำใหม่</span>
           </nav>
-          <h1 className="mt-2 text-3xl font-bold text-ink-900">ร่วมเติมคำให้คำภีร์</h1>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-ink-900 sm:text-4xl">ร่วมเติมคำให้คัมภีร์</h1>
           <p className="mt-1 text-sm text-ink-600">
             คำใหม่ หรือความหมายใหม่ของคำเดิม ก็เสนอได้
           </p>

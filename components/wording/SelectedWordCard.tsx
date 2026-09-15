@@ -27,7 +27,7 @@ export function SelectedWordCard({ sense }: { sense: MatchedTermSense }) {
         className={
           ai
             ? "rounded-card border border-violet-600/20 bg-violet-50 p-4"
-            : "rounded-card border border-line bg-surface p-4"
+            : "rounded-card border border-line bg-surface shadow-card p-4"
         }
         aria-label={
           ai
@@ -72,7 +72,7 @@ export function SelectedWordCard({ sense }: { sense: MatchedTermSense }) {
                 <Link
                   key={w}
                   href={`/search?q=${encodeURIComponent(w)}`}
-                  className="rounded-chip bg-slate100 px-3 py-1 text-sm text-ink-900 hover:bg-line"
+                  className="rounded-chip border border-line bg-surface px-3.5 py-1 text-sm font-medium text-ink-900 hover:border-primary-500"
                 >
                   {w}
                 </Link>
@@ -100,7 +100,7 @@ export function SelectedWordCard({ sense }: { sense: MatchedTermSense }) {
       </section>
 
       {sense.note ? (
-        <section className="rounded-card border border-line bg-surface p-4">
+        <section className="rounded-card border border-line bg-surface shadow-card p-4">
           <h3 className="flex items-center gap-1.5 text-sm font-semibold text-ink-900">
             <LightBulbIcon className="h-4 w-4 text-amber-700" aria-hidden="true" />
             คำแนะนำ

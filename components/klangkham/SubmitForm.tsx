@@ -40,7 +40,7 @@ export function SubmitForm() {
     <div className="mx-auto max-w-[1280px] px-4 py-6 lg:px-8">
       <div className="grid gap-4 lg:grid-cols-[1fr_400px]">
         {/* form */}
-        <section className="rounded-card border border-line bg-surface p-5">
+        <section className="rounded-card border border-line bg-surface shadow-card p-5">
           <h2 className="font-semibold text-ink-900">ข้อมูลคำที่เสนอ</h2>
           <p className="mt-1 text-sm text-ink-600">
             กรอกข้อมูลให้ครบถ้วน เพื่อช่วยให้ทุกคนเข้าใจคำนี้ได้ดียิ่งขึ้น
@@ -124,7 +124,7 @@ export function SubmitForm() {
               <button
                 type="submit"
                 disabled={!agree}
-                className="inline-flex items-center gap-2 rounded-control bg-primary-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-600 disabled:cursor-not-allowed disabled:bg-primary-500/50"
+                className="inline-flex items-center gap-2 rounded-control bg-primary-500 shadow-button px-4 py-2.5 text-sm font-medium text-white hover:bg-primary-600 disabled:cursor-not-allowed disabled:bg-primary-500/50"
               >
                 <PaperAirplaneIcon className="h-5 w-5" /> ส่งให้ตรวจสอบ
               </button>
@@ -134,7 +134,7 @@ export function SubmitForm() {
 
         {/* post-submit status */}
         <aside className="space-y-4">
-          <section className="rounded-card border border-line bg-surface p-5">
+          <section className="rounded-card border border-line bg-surface shadow-card p-5">
             <h2 className="mb-3 font-semibold text-ink-900">หลังส่งคำ</h2>
 
             <div
@@ -185,7 +185,7 @@ export function SubmitForm() {
 
           {/* reviewer panel — staff only, gated out of the public build (§5) */}
           {SHOW_REVIEWER_PANEL ? (
-            <section className="rounded-card border border-line bg-surface p-5">
+            <section className="rounded-card border border-line bg-surface shadow-card p-5">
               <div className="mb-2 flex items-center justify-between">
                 <h2 className="font-semibold text-ink-900">สำหรับผู้ตรวจ</h2>
                 <span className="rounded-chip bg-slate100 px-2 py-0.5 text-xs text-ink-400">

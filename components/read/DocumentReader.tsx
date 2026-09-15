@@ -230,7 +230,7 @@ function LiveReader({ docId }: { docId: string }) {
   return (
     <div className="mx-auto max-w-[1280px] px-4 py-6 lg:px-8">
       <div className="grid gap-4 lg:grid-cols-[1fr_400px]">
-        <section className="min-w-0 rounded-card border border-line bg-surface">
+        <section className="min-w-0 rounded-card border border-line bg-surface shadow-card">
           <header className="flex flex-wrap items-center justify-between gap-3 border-b border-line p-4 text-sm">
             <span className="flex min-w-0 flex-wrap items-center gap-2">
               <DocumentIcon className="h-5 w-5 shrink-0 text-ink-400" />
@@ -341,7 +341,7 @@ function LiveReader({ docId }: { docId: string }) {
         {/* rail */}
         <aside className="min-w-0 space-y-4">
           {page && page.status === "ready" ? (
-            <section className="rounded-card border border-line bg-surface p-4">
+            <section className="rounded-card border border-line bg-surface shadow-card p-4">
               <div className="mb-2 flex items-center justify-between gap-2">
                 <h2 className="flex items-center gap-2 font-semibold text-ink-900">
                   <DocumentIcon className="h-5 w-5 text-ink-400" /> ข้อความที่อ่านได้
@@ -375,7 +375,7 @@ function LiveReader({ docId }: { docId: string }) {
                     <button
                       type="button"
                       onClick={saveCorrection}
-                      className="rounded-control bg-primary-500 px-3 py-1.5 text-sm font-medium text-white"
+                      className="rounded-control bg-primary-500 shadow-button px-3 py-1.5 text-sm font-medium text-white"
                     >
                       บันทึกการแก้ไข
                     </button>
@@ -472,7 +472,7 @@ function AssistRail({
 
   return (
     <div className="space-y-4">
-      <section className="rounded-card border border-line bg-surface p-4">
+      <section className="rounded-card border border-line bg-surface shadow-card p-4">
         <h2 className="mb-2 flex items-center gap-2 font-semibold text-ink-900">
           <BookOpenIcon className="h-5 w-5 text-primary-600" /> ข้อความนี้หมายถึง
         </h2>
@@ -495,7 +495,7 @@ function AssistRail({
         ) : null}
       </section>
 
-      <section className="rounded-card border border-line bg-surface p-4">
+      <section className="rounded-card border border-line bg-surface shadow-card p-4">
         <h2 className="mb-2 font-semibold text-ink-900">แปลข้อความที่เลือก</h2>
         {translation?.translation ? (
           <div className="rounded-control border border-violet-600/20 bg-violet-50 p-3">
@@ -567,7 +567,7 @@ function SampleReader() {
         เอกสารตัวอย่าง — อัปโหลดไฟล์จริงได้ที่หน้า คำอ่าน
       </div>
       <div className="grid gap-4 lg:grid-cols-[1fr_400px]">
-        <section className="rounded-card border border-line bg-surface p-6">
+        <section className="rounded-card border border-line bg-surface shadow-card p-6">
           <article className="rounded-control border border-line p-6">
             <h1 className="text-center text-xl font-bold text-ink-900">
               {SAMPLE.title}
@@ -583,7 +583,7 @@ function SampleReader() {
           </article>
         </section>
         <aside className="space-y-4">
-          <section className="rounded-card border border-line bg-surface p-4">
+          <section className="rounded-card border border-line bg-surface shadow-card p-4">
             <h2 className="mb-2 flex items-center gap-2 font-semibold text-ink-900">
               <BookOpenIcon className="h-5 w-5 text-primary-600" /> ข้อความนี้หมายถึง
             </h2>
@@ -597,7 +597,7 @@ function SampleReader() {
               </span>
             </div>
           </section>
-          <section className="rounded-card border border-line bg-surface p-4">
+          <section className="rounded-card border border-line bg-surface shadow-card p-4">
             <h2 className="mb-2 font-semibold text-ink-900">คำยากในข้อความนี้</h2>
             <ul className="space-y-2">
               {SAMPLE.hardWords.map((hw, i) => (
@@ -621,7 +621,7 @@ function SampleReader() {
               ))}
             </ul>
           </section>
-          <section className="rounded-card border border-line bg-surface p-4">
+          <section className="rounded-card border border-line bg-surface shadow-card p-4">
             <h2 className="mb-2 font-semibold text-ink-900">แปลข้อความที่เลือก</h2>
             <div className="rounded-control border border-violet-600/20 bg-violet-50 p-3">
               <p className="flex items-center gap-1.5 text-sm font-medium text-violet-600">

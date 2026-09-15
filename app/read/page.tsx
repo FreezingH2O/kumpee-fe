@@ -32,13 +32,13 @@ const FEATURES = [
 export default function ReadUploadPage() {
   return (
     <AppShell>
-      <div className="border-b border-line bg-surface">
+      <div className="border-b border-white/70 bg-white/60 backdrop-blur-md">
         <div className="mx-auto max-w-[1280px] px-4 py-6 lg:px-8">
           <nav aria-label="breadcrumb" className="text-sm text-ink-400">
             <span>หน้าแรก</span> <span className="mx-1">›</span>{" "}
             <span className="text-primary-600">คำอ่าน</span>
           </nav>
-          <h1 className="mt-2 text-3xl font-bold text-ink-900">คำอ่าน</h1>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-ink-900 sm:text-4xl">คำอ่าน</h1>
           <p className="mt-1 text-sm text-ink-600">
             อัปโหลดรูปหรือไฟล์ PDF แล้วลากเลือกข้อความบนเอกสาร
             เพื่อดูคำแปลและคำอธิบายโดยที่ยังเห็นต้นฉบับอยู่
@@ -51,7 +51,7 @@ export default function ReadUploadPage() {
 
         <div className="grid gap-4 md:grid-cols-3">
           {FEATURES.map(({ Icon, title, body }) => (
-            <div key={title} className="rounded-card border border-line bg-surface p-4">
+            <div key={title} className="rounded-card border border-line bg-surface shadow-card p-4">
               <span className="grid h-10 w-10 place-items-center rounded-control bg-canvas text-primary-600">
                 <Icon className="h-5 w-5" aria-hidden="true" />
               </span>

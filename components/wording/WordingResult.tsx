@@ -58,7 +58,7 @@ export function WordingResult({
           ) : null}
 
           {state === "ai_only" && result.meaning ? (
-            <section className="rounded-card border border-line bg-surface p-5">
+            <section className="rounded-card border border-line bg-surface shadow-card p-5">
               <h2 className="mb-1 text-xl font-semibold text-ink-900">
                 คำอธิบายและคำแปล
               </h2>
@@ -77,7 +77,7 @@ export function WordingResult({
           ) : null}
 
           {state === "not_found" && result.ai_hypothesis ? (
-            <section className="rounded-card border border-line bg-surface p-5">
+            <section className="rounded-card border border-line bg-surface shadow-card p-5">
               <h2 className="mb-4 text-xl font-semibold text-ink-900">
                 คำอธิบายและคำแปล
               </h2>
@@ -95,7 +95,7 @@ export function WordingResult({
           {result.contemporary ? <ContemporaryCard note={result.contemporary} /> : null}
 
           {result.follow_up_question ? (
-            <p className="flex items-start gap-2 rounded-card border border-line bg-surface p-4 text-sm text-ink-600">
+            <p className="flex items-start gap-2 rounded-card border border-line bg-surface shadow-card p-4 text-sm text-ink-600">
               <InformationCircleIcon className="mt-0.5 h-5 w-5 shrink-0 text-ink-400" />
               {result.follow_up_question}
             </p>
@@ -147,7 +147,7 @@ function NotFoundNotice({
       ) : null}
       <Link
         href="/klangkham/submit"
-        className="mt-3 inline-flex items-center gap-1.5 rounded-control bg-primary-500 px-4 py-2 text-sm font-medium text-white hover:bg-primary-600"
+        className="mt-3 inline-flex items-center gap-1.5 rounded-control bg-primary-500 shadow-button px-4 py-2 text-sm font-medium text-white hover:bg-primary-600"
       >
         <PlusCircleIcon className="h-5 w-5" />
         เสนอคำเข้าสู่คลังคำ
