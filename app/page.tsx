@@ -63,10 +63,9 @@ export default async function Home() {
     <AppShell>
       {/* hero */}
       <section className="relative overflow-hidden">
-        <HeroBook className="pointer-events-none absolute -left-24 top-20 hidden w-[460px] opacity-90 lg:block" />
-        <HeroBook className="pointer-events-none absolute -right-28 top-40 hidden w-[380px] -scale-x-100 opacity-40 lg:block" />
+        <HeroBook className="pointer-events-none absolute left-2 top-16 hidden w-[400px] xl:block 2xl:left-[calc(50%-720px)] 2xl:w-[460px]" />
         <p
-          className="pointer-events-none absolute left-8 top-[360px] hidden text-xs font-medium leading-6 tracking-[0.3em] text-ink-400 xl:block"
+          className="pointer-events-none absolute left-8 top-[420px] hidden text-xs font-medium leading-6 tracking-[0.3em] text-ink-400 xl:block"
           aria-hidden="true"
         >
           <span className="mb-3 block h-[3px] w-6 rounded-chip bg-amber-400" />
