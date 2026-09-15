@@ -1,14 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { API_BASE, backendHeaders } from "@/lib/api/backend";
+import { API_BASE, resolveUserToken, withBearer } from "@/lib/api/backend";
+import {
+  consumeGuestQuota,
+  getGuestQuota,
+  guestLimitError,
+  guestToken,
+  isGuestMeteredPath,
+} from "@/lib/guest/quota";
 
 /**
  * Server-side proxy to the คำภีร์ backend.
  *
  * The browser calls `/api/kamphee/v1/...`; this handler forwards to
  * `${KAMPHEE_API_BASE}/v1/...` and attaches `Authorization: Bearer <token>` —
- * the signed-in user's Supabase JWT from the session cookie, else the
- * server-side KAMPHEE_API_TOKEN — so no server key ever reaches the browser
- * bundle (§0.4). The raw request body is forwarded verbatim, which
+ * the signed-in user's Supabase JWT from the session cookie. Signed-out
+ * visitors get the guest key on AI endpoints only, within their daily free
+ * limit (lib/guest/quota.ts). No server key ever reaches the browser (§0.4). The raw request body is forwarded verbatim, which
  * preserves both JSON and multipart uploads (file boundaries intact).
  *
  * Only `/v1/*` paths are allowed, so this is not an open proxy.
@@ -44,7 +51,24 @@ async function forward(req: NextRequest, path: string[]) {
   const target =
     API_BASE + "/" + path.map(encodeURIComponent).join("/") + req.nextUrl.search;
 
-  const headers = await backendHeaders();
+  // Credential: the user, else a metered guest call, else anonymous.
+  let token = await resolveUserToken();
+  let guest = false;
+  if (!token && isGuestMeteredPath(req.method, path)) {
+    const quota = await getGuestQuota();
+    if (quota && quota.remaining <= 0) {
+      return NextResponse.json(guestLimitError(), {
+        status: 429,
+        headers: { "x-guest-remaining": "0", "x-guest-limit": String(quota.limit) },
+      });
+    }
+    if (quota) {
+      token = guestToken();
+      guest = true;
+    }
+  }
+
+  const headers = withBearer(token);
   for (const name of FORWARD_REQUEST_HEADERS) {
     const value = req.headers.get(name);
     if (value) headers.set(name, value);
@@ -79,6 +103,14 @@ async function forward(req: NextRequest, path: string[]) {
   for (const name of FORWARD_RESPONSE_HEADERS) {
     const value = upstream.headers.get(name);
     if (value) resHeaders.set(name, value);
+  }
+  // Only successful guest calls count against the free limit.
+  if (guest && upstream.ok) {
+    const quota = await consumeGuestQuota();
+    if (quota) {
+      resHeaders.set("x-guest-remaining", String(quota.remaining));
+      resHeaders.set("x-guest-limit", String(quota.limit));
+    }
   }
   return new NextResponse(upstream.body, { status: upstream.status, headers: resHeaders });
 }

@@ -1,21 +1,32 @@
 /**
- * Server-component data access (import only from server code — it reads the
- * token via lib/api/backend).
+ * Server-component data access (import only from server code — it reads
+ * credentials via lib/api/backend and lib/guest/quota).
  */
 
-import { API_BASE, backendHeaders, resolveBackendToken } from "@/lib/api/backend";
+import { API_BASE, resolveUserToken, withBearer } from "@/lib/api/backend";
 import { adaptEntries, adaptLanguageResult, mapResponse } from "@/lib/api/adapt";
+import {
+  consumeGuestQuota,
+  getGuestQuota,
+  guestToken,
+  type GuestQuota,
+} from "@/lib/guest/quota";
 import type { ApiResponse, LanguageResult, SearchRequest } from "@/lib/api/types";
+import { isApiError } from "@/lib/api/types";
 import type { WireEntryList, WireLanguageResult } from "@/lib/api/wire";
 
 const TIMEOUT_MS = 55_000;
 
-async function call<T>(path: string, init?: RequestInit): Promise<ApiResponse<T>> {
+async function call<T>(
+  path: string,
+  token: string | null,
+  init?: RequestInit
+): Promise<ApiResponse<T>> {
   let res: Response;
   try {
     res = await fetch(API_BASE + path, {
       ...init,
-      headers: await backendHeaders({ accept: "application/json", ...(init?.headers ?? {}) }),
+      headers: withBearer(token, { accept: "application/json", ...(init?.headers ?? {}) }),
       cache: "no-store",
       signal: AbortSignal.timeout(TIMEOUT_MS),
     });
@@ -48,40 +59,77 @@ async function call<T>(path: string, init?: RequestInit): Promise<ApiResponse<T>
 
 export interface SearchOutcome {
   response: ApiResponse<LanguageResult>;
-  /** False when only the public dictionary could be queried (no token). */
+  /** Whether AI features can be used for this visitor right now. */
   aiAvailable: boolean;
+  /** Signed-out visitors: their free AI trial usage (null when signed in or no trial). */
+  guest: GuestQuota | null;
+  /** Signed-out visitor whose free AI searches for today are used up. */
+  guestLimitReached: boolean;
+}
+
+async function aiSearch(text: string, token: string) {
+  const body: SearchRequest = {
+    text,
+    source: { language: "th", variety_id: null },
+    mode: "auto",
+    include: ["meaning", "intents", "mood", "tone", "formality", "matched_terms"],
+  };
+  const res = await call<WireLanguageResult>("/v1/search", token, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  return mapResponse(res, (d) => adaptLanguageResult(d, text));
+}
+
+async function dictionarySearch(text: string) {
+  const res = await call<WireEntryList>(`/v1/entries?query=${encodeURIComponent(text)}`, null);
+  return mapResponse(res, (d) => ({
+    view: "word" as const,
+    status: d.items.length ? ("complete" as const) : ("insufficient_evidence" as const),
+    selected_text: text,
+    ...(d.items.length ? adaptEntries(d.items, text) : { headword: text }),
+  }));
 }
 
 /**
- * คำแปล search. With a token: POST /v1/search — dictionary hits come back
- * directly; otherwise the backend generates a labeled explanation, and for
- * sentences the interpretation sections + matched dictionary terms.
- * Without a token: the public GET /v1/entries dictionary lookup only.
+ * คำแปล search.
+ *  - Signed in: POST /v1/search — dictionary hits come back directly; otherwise
+ *    the backend generates a labeled explanation (and sentence analysis).
+ *  - Signed out: the public dictionary first (free). Only when it has no match
+ *    is the AI search used, with the guest key, counting against the daily
+ *    free limit.
  */
 export async function searchServer(text: string): Promise<SearchOutcome> {
-  if (await resolveBackendToken()) {
-    const body: SearchRequest = {
-      text,
-      source: { language: "th", variety_id: null },
-      mode: "auto",
-      include: ["meaning", "intents", "mood", "tone", "formality", "matched_terms"],
+  const userToken = await resolveUserToken();
+  if (userToken) {
+    return {
+      response: await aiSearch(text, userToken),
+      aiAvailable: true,
+      guest: null,
+      guestLimitReached: false,
     };
-    const res = await call<WireLanguageResult>("/v1/search", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    return { response: mapResponse(res, (d) => adaptLanguageResult(d, text)), aiAvailable: true };
   }
 
-  const res = await call<WireEntryList>(`/v1/entries?query=${encodeURIComponent(text)}`);
+  const dictionary = await dictionarySearch(text);
+  const quota = await getGuestQuota();
+  const found = !isApiError(dictionary) && (dictionary.data.dictionary_results?.length ?? 0) > 0;
+
+  if (found || isApiError(dictionary) || !quota || quota.remaining <= 0) {
+    return {
+      response: dictionary,
+      aiAvailable: !!quota && quota.remaining > 0,
+      guest: quota,
+      guestLimitReached: !!quota && quota.remaining <= 0,
+    };
+  }
+
+  const response = await aiSearch(text, guestToken());
+  const updated = isApiError(response) ? quota : ((await consumeGuestQuota()) ?? quota);
   return {
-    response: mapResponse(res, (d) => ({
-      view: "word" as const,
-      status: d.items.length ? ("complete" as const) : ("insufficient_evidence" as const),
-      selected_text: text,
-      ...(d.items.length ? adaptEntries(d.items, text) : { headword: text }),
-    })),
-    aiAvailable: false,
+    response,
+    aiAvailable: updated.remaining > 0,
+    guest: updated,
+    guestLimitReached: false,
   };
 }

@@ -22,7 +22,8 @@ Copy `.env.example` to `.env.local` in this folder (not in `node_modules/`):
 KAMPHEE_API_BASE=https://kumpee-be.vercel.app                 # optional; default
 NEXT_PUBLIC_SUPABASE_URL=https://ywbvftgqxttodiybvhvs.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon / publishable key>        # required for login
-KAMPHEE_API_TOKEN=                                            # optional fallback, usually empty
+KAMPHEE_GUEST_API_TOKEN=                                      # optional guest trial key
+UPSTASH_REDIS_REST_URL= / UPSTASH_REDIS_REST_TOKEN=            # required for the guest trial in production
 ```
 
 Restart `npm run dev` after editing.
@@ -37,17 +38,32 @@ JWTs from the project in `KAMPHEE_AUTH_ISSUER`, or `kh_` API keys. So:
    is stored in cookies, and `middleware.ts` keeps it refreshed.
 2. The proxy and the `/search` page send the **signed-in user's JWT** as
    `Authorization: Bearer …`. Documents and results are then owned by that user.
-3. If nobody is signed in, they use `KAMPHEE_API_TOKEN` if set. Otherwise the
-   request goes out anonymously.
+3. If nobody is signed in, AI calls (`search`, `lookup`, `analyze`, `translate`,
+   `rewrite`) use the **guest trial**: `KAMPHEE_GUEST_API_TOKEN`, limited to
+   `KAMPHEE_GUEST_DAILY_LIMIT` (default 3) successful calls per visitor per day,
+   Thailand time. Documents, Live, and audio always require sign-in, because a
+   shared key would mix guests' private data.
 
 The anon key is safe to put in the browser. **Never** put the Supabase
 `service_role` key in the frontend.
 
-`KAMPHEE_API_TOKEN` is **not** needed for normal use. Setting it gives every
-anonymous visitor AI access on one shared key, billed and rate-limited as that
-key's owner. Use `kh_` keys for scripts and server-to-server calls. A
-signed-in user creates one with `POST /v1/api-keys` (see
-`thai-dic/docs/developer-api.md`).
+### Guest free trial (`lib/guest/quota.ts`)
+
+- `middleware.ts` gives each visitor a random `kp_guest` cookie.
+- Each successful guest AI call is counted in Upstash Redis twice: per cookie
+  (limit N) and per hashed IP (limit 5×N). Clearing cookies doesn't reset the
+  trial, and people sharing an office network aren't blocked by one another.
+- Over the limit, the proxy returns 429 `GUEST_LIMIT_REACHED` and the UI links
+  to `/login`. Failed calls aren't counted. For guests, `/search` checks the
+  free dictionary first, so dictionary hits don't use the trial.
+- Production **fails closed**: without Redis there is no guest AI. Locally an
+  in-memory counter is used.
+- Setup:
+  1. Create a `kh_` key with only `language:use`, while signed in:
+     `POST /v1/api-keys {"name":"guest trial","scopes":["language:use"]}`.
+  2. Connect Upstash for Redis to the Vercel project (Storage / Marketplace),
+     which sets `KV_REST_API_URL`/`KV_REST_API_TOKEN` or the `UPSTASH_REDIS_REST_*` variables.
+  3. Set `KAMPHEE_GUEST_API_TOKEN` (and optionally `KAMPHEE_GUEST_DAILY_LIMIT`), then redeploy.
 
 ### What works signed out
 
@@ -56,9 +72,9 @@ signed-in user creates one with `POST /v1/api-keys` (see
 | Dictionary search (word found) | `GET /v1/entries?query=` | no |
 | Word meaning in sentence sidebar / Live | `GET /v1/entries`, `GET /v1/entries/{id}` | no |
 | Sources, capabilities | `GET /v1/sources`, `GET /v1/capabilities` | no |
-| AI explanation, sentence analysis | `POST /v1/search` | **yes** |
-| Translate card | `POST /v1/translate` | **yes** |
-| ปรับข้อความ | `POST /v1/rewrite` | **yes** |
+| AI explanation, sentence analysis | `POST /v1/search` | guest trial, then **yes** |
+| Translate card | `POST /v1/translate` | guest trial, then **yes** |
+| ปรับข้อความ | `POST /v1/rewrite` | guest trial, then **yes** |
 | คำแปล Live | `POST /v1/live/assist` | **yes** |
 | คำอ่าน (upload, reader, assist, correction) | `/v1/documents/*` | **yes** |
 | Audio button | `POST /v1/pronunciations/{id}/audio` | **yes** |
@@ -72,7 +88,8 @@ Signed out, `/search` falls back to the public dictionary and links to
 
 | File | Role |
 |---|---|
-| `lib/api/backend.ts` | Server-only base URL + credential (user JWT, else `KAMPHEE_API_TOKEN`). |
+| `lib/api/backend.ts` | Server-only base URL + the signed-in user's JWT. |
+| `lib/guest/quota.ts` | Guest free-trial key and daily counter. |
 | `lib/supabase/*`, `middleware.ts` | Supabase Auth clients and session refresh. |
 | `app/login`, `app/auth/callback` | Login page and email-link callback. |
 | `app/api/kamphee/[...path]/route.ts` | Proxy for browser calls; only `/v1/*`; streams bodies (JSON, multipart, audio ranges). |

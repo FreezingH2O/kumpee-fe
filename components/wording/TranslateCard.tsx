@@ -9,7 +9,8 @@ import {
   ArrowPathIcon,
 } from "@heroicons/react/24/outline";
 import { translate } from "@/lib/api/client";
-import { errorMessage, isApiError } from "@/lib/api/types";
+import { errorMessage, isApiError, needsLogin } from "@/lib/api/types";
+import { LoginLink } from "@/components/auth/LoginLink";
 import { AiBlock } from "@/components/AiBlock";
 
 /**
@@ -93,7 +94,17 @@ export function TranslateCard({ text }: { text: string }) {
         </div>
       ) : null}
 
-      {failure ? <p className="mt-4 text-sm text-amber-700">{failure}</p> : null}
+      {failure ? (
+        <p className="mt-4 text-sm text-amber-700">
+          {failure}
+          {res && isApiError(res) && needsLogin(res.error) ? (
+            <>
+              {" "}
+              <LoginLink />
+            </>
+          ) : null}
+        </p>
+      ) : null}
 
       <div className="mt-4 space-y-2">
         <button

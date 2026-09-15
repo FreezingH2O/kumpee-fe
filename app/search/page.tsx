@@ -4,8 +4,9 @@ import { SearchBar } from "@/components/shell/SearchBar";
 import { WordingResult } from "@/components/wording/WordingResult";
 import { SentenceResult } from "@/components/wording/SentenceResult";
 import { ErrorNotice } from "@/components/ErrorNotice";
+import { GuestBanner } from "@/components/auth/GuestBanner";
 import { searchServer } from "@/lib/api/server";
-import { errorMessage, isApiError } from "@/lib/api/types";
+import { errorMessage, isApiError, needsLogin } from "@/lib/api/types";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -44,6 +45,13 @@ export default async function SearchPage({
 
       <div className="mx-auto max-w-[1280px] px-4 pt-6 lg:px-8">
         <SearchBar key={query} initial={query} />
+        {outcome?.guest ? (
+          <GuestBanner
+            className="mt-3"
+            remaining={outcome.guest.remaining}
+            limit={outcome.guest.limit}
+          />
+        ) : null}
       </div>
 
       {!outcome ? (
@@ -55,11 +63,16 @@ export default async function SearchPage({
           className="mx-auto mt-6 max-w-[1280px] px-4 lg:px-8"
           message={errorMessage(outcome.response.error)}
           requestId={outcome.response.request_id}
+          showLogin={needsLogin(outcome.response.error)}
         />
       ) : outcome.response.data.view === "sentence" ? (
         <SentenceResult response={outcome.response} />
       ) : (
-        <WordingResult response={outcome.response} aiAvailable={outcome.aiAvailable} />
+        <WordingResult
+          response={outcome.response}
+          aiAvailable={outcome.aiAvailable}
+          guestLimitReached={outcome.guestLimitReached}
+        />
       )}
     </AppShell>
   );

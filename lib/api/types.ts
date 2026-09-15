@@ -65,10 +65,12 @@ export function errorMessage(err: ApiErrorBody): string {
   switch (err.code) {
     case "AUTHENTICATION_REQUIRED":
       return "กรุณาเข้าสู่ระบบก่อนใช้งานส่วนนี้";
+    case "GUEST_LIMIT_REACHED":
+      return "คุณใช้ AI ฟรีครบจำนวนสำหรับวันนี้แล้ว — เข้าสู่ระบบเพื่อใช้งานต่อได้ไม่จำกัด";
     case "INVALID_TOKEN":
       return "เซสชันหมดอายุ กรุณาเข้าสู่ระบบอีกครั้ง";
     case "INVALID_API_KEY":
-      return "KAMPHEE_API_TOKEN ไม่ถูกต้อง หมดอายุ หรือถูกเพิกถอน";
+      return "API key ของระบบไม่ถูกต้อง หมดอายุ หรือถูกเพิกถอน (KAMPHEE_GUEST_API_TOKEN)";
     case "AUTH_NOT_CONFIGURED":
       return "backend ยังไม่ได้ตั้งค่าการยืนยันตัวตนด้วย Supabase";
     case "INSUFFICIENT_SCOPE":
@@ -81,6 +83,12 @@ export function errorMessage(err: ApiErrorBody): string {
       return err.message || "เกิดข้อผิดพลาด";
   }
 }
+
+/** Errors a signed-in user wouldn't get — show a เข้าสู่ระบบ link with them. */
+export const needsLogin = (err: ApiErrorBody) =>
+  err.code === "AUTHENTICATION_REQUIRED" ||
+  err.code === "GUEST_LIMIT_REACHED" ||
+  err.code === "INVALID_TOKEN";
 
 /* ------------------------------------------------------------- shared request */
 

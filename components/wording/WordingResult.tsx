@@ -15,6 +15,7 @@ import { RelatedCards } from "@/components/wording/RelatedCards";
 import { WebEvidenceCard } from "@/components/wording/WebEvidenceCard";
 import { ContemporaryCard } from "@/components/wording/ContemporaryCard";
 import { AiBlock } from "@/components/AiBlock";
+import { LoginLink } from "@/components/auth/LoginLink";
 
 /**
  * The คำแปล result — ONE route, three states, chosen from the response shape
@@ -24,10 +25,13 @@ import { AiBlock } from "@/components/AiBlock";
 export function WordingResult({
   response,
   aiAvailable = true,
+  guestLimitReached = false,
 }: {
   response: ApiSuccess<LanguageResult>;
-  /** False when the server has no API token — only the public dictionary was searched. */
+  /** False when this visitor can't use AI right now (signed out, no free uses left). */
   aiAvailable?: boolean;
+  /** Signed out and today's free AI searches are used up. */
+  guestLimitReached?: boolean;
 }) {
   const result = response.data;
   const state = searchStateFor(result);
@@ -39,7 +43,11 @@ export function WordingResult({
       <WordHeader result={result} />
 
       {state === "not_found" ? (
-        <NotFoundNotice headword={headword} aiAvailable={aiAvailable} />
+        <NotFoundNotice
+          headword={headword}
+          aiAvailable={aiAvailable}
+          guestLimitReached={guestLimitReached}
+        />
       ) : null}
 
       {/* main region: two columns on desktop, stacked on mobile */}
@@ -110,9 +118,11 @@ export function WordingResult({
 function NotFoundNotice({
   headword,
   aiAvailable,
+  guestLimitReached,
 }: {
   headword: string;
   aiAvailable: boolean;
+  guestLimitReached: boolean;
 }) {
   return (
     <div className="mt-4 rounded-card border border-violet-600/20 bg-violet-50 p-4">
@@ -128,13 +138,10 @@ function NotFoundNotice({
       </p>
       {!aiAvailable ? (
         <p className="mt-2 text-sm text-ink-600">
-          ขณะนี้ค้นได้เฉพาะพจนานุกรมสาธารณะ —{" "}
-          <Link
-            href={`/login?next=${encodeURIComponent(`/search?q=${headword}`)}`}
-            className="font-medium text-primary-600 underline"
-          >
-            เข้าสู่ระบบ
-          </Link>{" "}
+          {guestLimitReached
+            ? "คุณใช้ AI ฟรีครบจำนวนสำหรับวันนี้แล้ว — "
+            : "ขณะนี้ค้นได้เฉพาะพจนานุกรมสาธารณะ — "}
+          <LoginLink />{" "}
           เพื่อดูคำอธิบายโดย AI และการวิเคราะห์ประโยค
         </p>
       ) : null}

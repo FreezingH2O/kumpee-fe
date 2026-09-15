@@ -11,7 +11,8 @@ import {
   ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 import type { Formality, LanguageRequest } from "@/lib/api/types";
-import { errorMessage, isApiError } from "@/lib/api/types";
+import { errorMessage, isApiError, needsLogin } from "@/lib/api/types";
+import { LoginLink } from "@/components/auth/LoginLink";
 import { rewrite } from "@/lib/api/client";
 import { REGISTERS } from "@/components/live/RewriteSelectionCard";
 import { Field, controlClass } from "@/components/form/Field";
@@ -200,7 +201,15 @@ export function RewriteForm({ initialText = "" }: { initialText?: string }) {
         <section className="rounded-card border border-line bg-surface p-5">
           <h2 className="font-semibold text-ink-900">ข้อความที่ปรับแล้ว</h2>
           {failure ? (
-            <p className="mt-4 rounded-control bg-amber-50 p-4 text-sm text-amber-700">{failure}</p>
+            <p className="mt-4 rounded-control bg-amber-50 p-4 text-sm text-amber-700">
+              {failure}
+              {res && isApiError(res) && needsLogin(res.error) ? (
+                <>
+                  {" "}
+                  <LoginLink />
+                </>
+              ) : null}
+            </p>
           ) : null}
           {!result ? (
             !failure ? (

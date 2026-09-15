@@ -10,6 +10,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Field, controlClass } from "@/components/form/Field";
 import { getSupabaseBrowser } from "@/lib/supabase/client";
+import { SITE_URL } from "@/lib/supabase/config";
 
 type Mode = "signin" | "signup" | "magic";
 
@@ -48,7 +49,7 @@ export function LoginForm({ next, initialError }: { next: string; initialError: 
   }
 
   const callbackUrl = () =>
-    `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
+    `${SITE_URL || window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`;
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
