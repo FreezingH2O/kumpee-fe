@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    /* Thai body leading — diacritics stack and collide at tight leading (§3) */
+    line-height: 1.6;
+  }
+  body {
+    background-color: theme("colors.canvas");
+    color: theme("colors.ink.900");
+    font-family: theme("fontFamily.sans");
+  }
+  h1, h2, h3, h4 {
+    line-height: 1.45;
+  }
+  /* Visible keyboard focus everywhere (§10 quality floor) */
+  :focus-visible {
+    outline: 2px solid theme("colors.primary.500");
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
